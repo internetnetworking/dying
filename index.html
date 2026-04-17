@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>✞ heaven ✞</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Comic Sans MS', 'Times New Roman', cursive;
+            cursor: auto; /* обычная стрелка, без картошки */
+        }
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 1s ease;
+            display: none;
+            opacity: 0;
+        }
+        .page.active {
+            display: flex;
+            opacity: 1;
+        }
+        /* ========== АНГЕЛЬСКАЯ ========== */
+        .angel-page {
+            background: url('clouds.jpg') center/cover no-repeat;
+            background-color: #b0e0ff;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+        .gold-frame {
+            border: 8px ridge #ffd700;
+            background: rgba(255,255,240,0.7);
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0 0 0 2px #b8860b;
+            max-width: 80%;
+        }
+        blink { animation: blink 1s step-start infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        marquee {
+            background: #fff8dc;
+            border: 2px groove #daa520;
+            color: #8b4513;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+        .hand-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 20px;
+            transition: transform 0.1s linear;
+        }
+        .hand-button img {
+            width: 150px;
+            filter: drop-shadow(2px 2px 0px gold);
+        }
+        .hand-button:hover { transform: scale(1.05); }
+        .glow-text {
+            font-size: 24px;
+            color: #ff4500;
+            text-shadow: 2px 2px 0px #ffff00;
+            animation: shake 0.3s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px); }
+            100% { transform: translate(-1px, -1px); }
+        }
+        /* Диалог */
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .dialog-box {
+            background: #f0f0f0;
+            border: 8px ridge #c0c0c0;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            font-family: 'Comic Sans MS', cursive;
+            box-shadow: 5px 5px 0px #888;
+        }
+        .dialog-box p { margin: 15px 0; font-size: 1.2rem; }
+        .dialog-box button {
+            background: #ddd;
+            border: 3px outset #aaa;
+            padding: 8px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .dialog-box button:active { border: 3px inset #aaa; }
+        /* Глаз */
+        .eye-page {
+            background: black;
+            justify-content: center;
+            align-items: center;
+        }
+        .eye-container {
+            width: 200px;
+            cursor: pointer;
+            transform: scale(1);
+            transition: transform 0s;
+        }
+        .eye-img { width: 100%; display: block; }
+        /* HIDE */
+        .hide-page {
+            background: black;
+            justify-content: center;
+            align-items: center;
+        }
+        .hide-button {
+            background: #111;
+            border: 2px dotted #aaa;
+            color: #ccc;
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            padding: 15px 30px;
+            cursor: pointer;
+            letter-spacing: 5px;
+            transform: rotate(-2deg) skew(1deg);
+            animation: weirdGlitch 2s infinite;
+        }
+        .hide-button:hover {
+            background: #222;
+            transform: rotate(2deg) skew(-1deg);
+        }
+        @keyframes weirdGlitch {
+            0% { border-color: #666; transform: translate(1px, -1px); }
+            25% { border-color: #aaa; transform: translate(-1px, 0px); }
+            50% { border-color: #444; transform: translate(0px, 1px); }
+            75% { border-color: #888; transform: translate(1px, 1px); }
+            100% { border-color: #555; transform: translate(-1px, -1px); }
+        }
+        /* Дверь */
+        .door-page {
+            background: black;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .door-image {
+            max-width: 80%;
+            max-height: 80%;
+            cursor: pointer;
+        }
+        /* Скример */
+        .screamer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        .screamer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<!-- АНГЕЛЬСКАЯ -->
+<div id="angelPage" class="page angel-page active">
+    <marquee behavior="scroll" direction="left" scrollamount="3">✝ Добро пожаловать в райский уголок! ✝ Здесь вас ждёт блаженство! ✝</marquee>
+    <div class="gold-frame">
+        <blink><h1 style="color:#daa520;">✦ Райский вход ✦</h1></blink>
+        <p style="font-size:18px; color:#4b2e1a;">Услышь мой зов дитя, и я проведу тебя в рай...</p>
+        <button class="hand-button" id="handBtn">
+            <img src="hand.png" alt="рука">
+        </button>
+        <div class="glow-text">доверься мне, и я покажу тебе райские земли</div>
+    </div>
+    <marquee behavior="alternate" scrollamount="2" style="position: absolute; bottom: 10px;">❝ Выйди и стань на горе пред лицем Господним, и вот, Господь пройдет, и большой и сильный ветер, раздирающий горы и сокрушающий скалы пред Господом, но не в ветре Господь; после ветра землетрясение, но не в землетрясении Господь; после землетрясения огонь, но не в огне Господь; после огня веяние тихого ветра, [и там Господь]. ❞</marquee>
+</div>
+
+<!-- ДИАЛОГ -->
+<div id="warningDialog" class="dialog-overlay">
+    <div class="dialog-box">
+        <p><blink>⚠ ВНИМАНИЕ ⚠</blink></p>
+        <p>Этот сайт может напугать слишком впечатлительных.<br>Некоторые изображения и звуки могут быть неприятны.</p>
+        <p>Вы уверены, что хотите продолжить?</p>
+        <button id="exitBtn">Выйти</button>
+        <button id="stayBtn">Остаться</button>
+    </div>
+</div>
+
+<!-- ГЛАЗ -->
+<div id="eyePage" class="page eye-page">
+    <div class="eye-container" id="eyeContainer">
+        <img src="eye.png" alt="" class="eye-img" id="eyeImg">
+    </div>
+</div>
+
+<!-- HIDE -->
+<div id="hidePage" class="page hide-page">
+    <button id="hideBtn" class="hide-button">hide</button>
+</div>
+
+<!-- ДВЕРЬ -->
+<div id="doorPage" class="page door-page">
+    <img src="door.png" alt="" class="door-image" id="doorImg">
+</div>
+
+<script>
+    // ========== ПУТИ К ФАЙЛАМ (ЗАМЕНИТЕ ПРИ НЕОБХОДИМОСТИ) ==========
+    const ANGEL_MUSIC = "angelic.mp3";
+    const AMBIENT_MUSIC = "ambient.mp3";
+    const EYE_CLICK_SOUND = "eye_click.mp3";
+    const DOOR_CLICK_SOUND = "door_click.mp3";
+    const GROWTH_SOUND = "growth.mp3"; // опционально
+    const SCREAM_IMG = "scream.png";
+    const REDIRECT_URL = "https://www.image2url.com/r2/default/audio/1776414638756-7b26e77d-ad84-463d-9898-aaf4dc5bdb37.mp3"; // замените на свою ссылку
+
+    // ========== ЭЛЕМЕНТЫ ==========
+    const angelPage = document.getElementById('angelPage');
+    const eyePage = document.getElementById('eyePage');
+    const hidePage = document.getElementById('hidePage');
+    const doorPage = document.getElementById('doorPage');
+    const dialogOverlay = document.getElementById('warningDialog');
+    const handBtn = document.getElementById('handBtn');
+    const exitBtn = document.getElementById('exitBtn');
+    const stayBtn = document.getElementById('stayBtn');
+    const eyeImg = document.getElementById('eyeImg');
+    const eyeContainer = document.getElementById('eyeContainer');
+    const hideBtn = document.getElementById('hideBtn');
+    const doorImg = document.getElementById('doorImg');
+
+    // ========== ЗВУКИ ==========
+    let angelAudio = new Audio(ANGEL_MUSIC);
+    angelAudio.loop = true;
+    angelAudio.volume = 0.5;
+    let ambientAudio = new Audio(AMBIENT_MUSIC);
+    ambientAudio.loop = true;
+    let eyeClickAudio = new Audio(EYE_CLICK_SOUND);
+    let doorClickAudio = new Audio(DOOR_CLICK_SOUND);
+    let growthAudio = new Audio(GROWTH_SOUND);
+
+    let screamerShown = false;
+    let eyeGrowthInterval = null;
+
+    // ========== ФУНКЦИИ ПЕРЕКЛЮЧЕНИЯ ==========
+    function switchToPage(nextPage) {
+        const current = document.querySelector('.page.active');
+        if (current) {
+            current.style.opacity = '0';
+            setTimeout(() => {
+                current.classList.remove('active');
+                nextPage.classList.add('active');
+                nextPage.style.opacity = '1';
+            }, 500);
+        } else {
+            nextPage.classList.add('active');
+            nextPage.style.opacity = '1';
+        }
+    }
+
+    // ========== АНГЕЛЬСКАЯ СТРАНИЦА: МУЗЫКА ЗАПУСКАЕТСЯ ПРИ КЛИКЕ НА РУКУ ==========
+    handBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Запускаем ангельскую музыку (если ещё не запущена)
+        if (angelAudio.paused) {
+            angelAudio.play().catch(e => console.warn("angel music error:", e));
+        }
+        // Показываем диалог предупреждения
+        dialogOverlay.style.display = 'flex';
+    });
+
+    // ========== ДИАЛОГ ==========
+    exitBtn.addEventListener('click', () => {
+        window.location.href = "https://www.google.com";
+    });
+
+    stayBtn.addEventListener('click', () => {
+        dialogOverlay.style.display = 'none';
+        // Останавливаем ангельскую музыку
+        angelAudio.pause();
+        angelAudio.currentTime = 0;
+        // Переход на страницу с глазом
+        switchToPage(eyePage);
+        // Инициализируем глаз и запускаем эмбиент автоматически (после клика на руку браузер разрешит звук)
+        initEyePage();
+    });
+
+    // ========== СТРАНИЦА ГЛАЗА ==========
+    let eyeScale = 1.0;
+    const END_SCALE = 12.0;
+    const STEP_INTERVAL_MS = 2000;
+    const TOTAL_TIME_MS = 3 * 60 * 1000;
+    const STEP_COUNT = TOTAL_TIME_MS / STEP_INTERVAL_MS;
+    const STEP_SIZE = (END_SCALE - 1.0) / STEP_COUNT;
+
+    function startEyeGrowth() {
+        if (eyeGrowthInterval) clearInterval(eyeGrowthInterval);
+        eyeGrowthInterval = setInterval(() => {
+            if (!eyePage.classList.contains('active')) {
+                clearInterval(eyeGrowthInterval);
+                return;
+            }
+            eyeScale += STEP_SIZE;
+            if (eyeScale >= END_SCALE) {
+                clearInterval(eyeGrowthInterval);
+                eyeReachedMax();
+            } else {
+                eyeContainer.style.transform = `scale(${eyeScale})`;
+                if (growthAudio) growthAudio.play().catch(e => {});
+            }
+        }, STEP_INTERVAL_MS);
+    }
+
+    function eyeReachedMax() {
+        ambientAudio.pause();
+        ambientAudio.currentTime = 0;
+        switchToPage(hidePage);
+    }
+
+    function initEyePage() {
+        // Сброс масштаба
+        eyeScale = 1.0;
+        eyeContainer.style.transform = 'scale(1)';
+        startEyeGrowth();
+        // Запускаем эмбиент автоматически (пользователь уже кликнул на руку, звук разрешён)
+        ambientAudio.play().catch(e => console.warn("ambient play error:", e));
+        // Клик по глазу
+        eyeImg.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ambientAudio.pause();
+            ambientAudio.currentTime = 0;
+            eyeClickAudio.play().catch(e => {});
+            clearInterval(eyeGrowthInterval);
+            switchToPage(hidePage);
+        });
+    }
+
+    // ========== HIDE ==========
+    hideBtn.addEventListener('click', () => {
+        switchToPage(doorPage);
+    });
+
+    // ========== ДВЕРЬ ==========
+    doorImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (screamerShown) return;
+        doorClickAudio.play().catch(e => {});
+        // Навсегда скрываем страницу с дверью
+        doorPage.classList.remove('active');
+        doorPage.style.display = 'none';
+        showScreamer();
+    });
+
+    function showScreamer() {
+        screamerShown = true;
+	let screamSound = new Audio("scream_sound.mp3");
+    	screamSound.play().catch(e => console.warn("scream sound error:", e));
+        const screamerDiv = document.createElement('div');
+        screamerDiv.className = 'screamer';
+        const img = document.createElement('img');
+        img.src = SCREAM_IMG;
+        screamerDiv.appendChild(img);
+        document.body.appendChild(screamerDiv);
+        screamerDiv.style.display = 'flex';
+        setTimeout(() => {
+            if (screamerDiv) screamerDiv.remove();
+            window.open(REDIRECT_URL, '_blank');
+        }, 10000);
+    }
+</script>
+</body>
+</html>
