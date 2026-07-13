@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Estie+Bestie&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: black;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Estie Bestie', 'Comic Sans MS', cursive;
+        }
+        .slide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .text-box {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            border-top: 3px solid #555;
+        }
+        .text-box p {
+            color: #eee;
+            font-size: 1.6rem;
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+            font-family: 'Estie Bestie', 'Comic Sans MS', cursive;
+        }
+        .text-box button {
+            background: #2a2a2a;
+            border: 3px solid #666;
+            color: #eee;
+            font-size: 1.8rem;
+            padding: 8px 28px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Estie Bestie', 'Comic Sans MS', cursive;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .text-box button:hover {
+            background: #3a3a3a;
+            transform: scale(1.02);
+        }
+        .text-box button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+<div id="slideContainer">
+    <img src="slide1.png" alt="" id="slideImage">
+</div>
+
+<div class="text-box">
+    <p id="slideText">Текст первого слайда. Замени на свой.</p>
+    <button id="nextBtn">дальше</button>
+</div>
+
+<script>
+    const slides = [
+        { image: 'slide1.png', text: 'Текст первого слайда. Замени на свой.' },
+        { image: 'slide2.png', text: 'Второй слайд. Напиши что хочешь.' },
+        { image: 'slide3.png', text: 'Третий слайд.' },
+        { image: 'slide4.png', text: 'Четвёртый слайд.' },
+        { image: 'slide5.png', text: 'Пятый слайд.' }
+    ];
+
+    let current = 0;
+    const img = document.getElementById('slideImage');
+    const text = document.getElementById('slideText');
+    const btn = document.getElementById('nextBtn');
+
+    function updateSlide(index) {
+        if (index >= slides.length) {
+            img.src = 'slide6.png';
+            text.textContent = 'Конец.';
+            btn.style.display = 'none';
+            return;
+        }
+        img.src = slides[index].image;
+        text.textContent = slides[index].text;
+    }
+
+    btn.addEventListener('click', () => {
+        current++;
+        updateSlide(current);
+    });
+
+    updateSlide(0);
+</script>
+</body>
+</html>

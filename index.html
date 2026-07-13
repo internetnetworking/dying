@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>✞ জান্নাত ✞</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Comic Sans MS', 'Times New Roman', cursive;
+            cursor: auto;
+        }
+        .page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: opacity 1s ease;
+            display: none;
+            opacity: 0;
+        }
+        .page.active {
+            display: flex;
+            opacity: 1;
+        }
+        .angel-page {
+            background: url('clouds.jpg') center/cover no-repeat;
+            background-color: #00aaff;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            animation: cloudMove 20s linear infinite;
+        }
+        @keyframes cloudMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 100% center; }
+        }
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 30;
+        }
+        .nav-btn {
+            background: #000;
+            border: 3px ridge #666;
+            color: #aaa;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 1.2rem;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: 0.1s linear;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            background: #222;
+            border-style: groove;
+            transform: scale(1.05);
+        }
+        .gold-frame {
+            border: 8px ridge #ffcc00;
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255,255,0,0.5);
+            max-width: 80%;
+            animation: breath 3s ease-in-out infinite;
+        }
+        @keyframes breath {
+            0% { transform: scale(0.98); border-color: #ffcc00; box-shadow: 0 0 10px rgba(255,255,0,0.3); }
+            50% { transform: scale(1.02); border-color: #ff8800; box-shadow: 0 0 30px rgba(255,100,0,0.8); }
+            100% { transform: scale(0.98); border-color: #ffcc00; box-shadow: 0 0 10px rgba(255,255,0,0.3); }
+        }
+        blink { animation: blink 1s step-start infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        marquee {
+            background: #fff8dc;
+            border: 2px groove #daa520;
+            color: #8b4513;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+        .hand-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 20px;
+            transition: transform 0.1s linear;
+        }
+        .hand-button img {
+            width: 150px;
+            filter: drop-shadow(2px 2px 0px gold);
+        }
+        .hand-button:hover { transform: scale(1.05); }
+        .glow-text {
+            font-size: 24px;
+            color: #ff4500;
+            text-shadow: 2px 2px 0px #ffff00;
+            animation: shake 0.3s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px); }
+            100% { transform: translate(-1px, -1px); }
+        }
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .dialog-box {
+            background: #000;
+            border: 4px ridge #ffcc00;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            font-family: 'Comic Sans MS', cursive;
+            color: #ffcc00;
+        }
+        .dialog-box p { margin: 15px 0; font-size: 1.2rem; }
+        .dialog-box button {
+            background: #222;
+            border: 2px outset #ffcc00;
+            color: #ffcc00;
+            padding: 8px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .dialog-box button:active { border: 2px inset #ffcc00; }
+        .god-page {
+            background: black;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+        .god-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .timer-container {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            gap: 5px;
+            pointer-events: none;
+        }
+        .timer-digit {
+            height: 80px;
+            width: auto;
+            image-rendering: pixelated;
+        }
+        .timer-colon {
+            color: #ff0000;
+            font-size: 60px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #ff0000;
+            margin: 0 5px;
+        }
+        .screamer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        .screamer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+<div id="angelPage" class="page angel-page active">
+    <div class="top-nav">
+        <a href="info.html" class="nav-btn" id="linkInfo">информаыция</a>
+        <a href="proz.html" class="nav-btn" id="linkProz">জান্নাত</a>
+        <a href="who.html" class="nav-btn" id="linkWho">кто я кто я кто я кто я кто я кто я</a>
+    </div>
+    <marquee behavior="scroll" direction="left" scrollamount="3">✝ 0обро пож1ловать в জান্নাত ✝ 3ыде1ь вас жрёт ... ... ... ✝</marquee>
+    <div class="gold-frame">
+        <blink><h1 style="color:#daa520;">✦ জান্নাত জান্নাত জান্নাত ✦</h1></blink>
+        <p style="font-size:18px; color:#fff;">dьслыш\ь мо5 зоъув дитяЖЖЖЖ, и я пров1ду 6бя в জান্নাত...</p>
+        <button class="hand-button" id="handBtn">
+            <img src="hand.png" alt="ангел">
+        </button>
+        <div class="glow-text">доверьсжж м1е, и я по444ажу тебе জান্নাত земля11333</div>
+    </div>
+    <marquee behavior="alternate" scrollamount="2" style="position: absolute; bottom: 10px;">❝ Вый1и и сст\ынь 1а гjре пйед ли5ем Гоыспод1им, имвот, Господцццццьььь жрёт..., и божжьшой и си=мль1ый вецццер, разаира1щий гжжжры и жрёт... ска2ы пGед Г1сппдом, 1о нр 0ветре Господьжрёт....; пос4увержжра землжжжтрясенпе, н2 н3 вппзерлетря2сении Господь ЖРёТ!!!....; посцые зе3лекрясения впыгонь, но не вОГНЕ!!!не Господееееь; послк ле ЖРЁТ ЖРЕТ ЖРЕТ ЖРЕТня веяниаТИХОГО веАААра, [и тамццца Госыыодь]. ❞</marquee>
+</div>
+
+<div id="warningDialog" class="dialog-overlay">
+    <div class="dialog-box">
+        <p><blink> jди за мн1д, д2тя... </blink></p>
+        <p>5Я поксжу те1е св2т.4Не койся, прQсто сле1уй.</p>
+        <button id="stayBtn">Пойти</button>
+    </div>
+</div>
+
+<div id="godPage" class="page god-page">
+    <img src="god.jpg" alt="" class="god-image">
+    <div class="timer-container" id="timerContainer"></div>
+</div>
+
+<script>
+const ANGEL_MUSIC = "angelic.mp3";
+const SCREAM_IMG = "scream.png";
+const SCREAM_SOUND = "scream_sound.mp3";
+const TICK_SOUND = "tick.mp3";
+
+const angelPage = document.getElementById('angelPage');
+const godPage = document.getElementById('godPage');
+const dialogOverlay = document.getElementById('warningDialog');
+const handBtn = document.getElementById('handBtn');
+const stayBtn = document.getElementById('stayBtn');
+
+let angelAudio = new Audio(ANGEL_MUSIC);
+angelAudio.loop = true;
+angelAudio.volume = 0.5;
+let screamSound = new Audio(SCREAM_SOUND);
+let tickSound = new Audio(TICK_SOUND);
+
+let timerInterval = null;
+
+function switchToPage(nextPage) {
+    const current = document.querySelector('.page.active');
+    if (current) {
+        current.style.opacity = '0';
+        setTimeout(() => {
+            current.classList.remove('active');
+            nextPage.classList.add('active');
+            nextPage.style.opacity = '1';
+        }, 500);
+    } else {
+        nextPage.classList.add('active');
+        nextPage.style.opacity = '1';
+    }
+}
+
+handBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (angelAudio.paused) {
+        angelAudio.play().catch(() => {});
+    }
+    dialogOverlay.style.display = 'flex';
+});
+
+stayBtn.addEventListener('click', () => {
+    dialogOverlay.style.display = 'none';
+    angelAudio.pause();
+    angelAudio.currentTime = 0;
+    switchToPage(godPage);
+    startTimer();
+});
+
+function startTimer() {
+    let totalSeconds = 5 * 60;
+    const timerContainer = document.getElementById('timerContainer');
+    updateTimerDisplay(totalSeconds, timerContainer);
+    timerInterval = setInterval(() => {
+        totalSeconds--;
+        if (totalSeconds <= 0) {
+            clearInterval(timerInterval);
+            showScreamerAfterTimer();
+            return;
+        }
+        updateTimerDisplay(totalSeconds, timerContainer);
+        tickSound.play().catch(() => {});
+    }, 1000);
+}
+
+function updateTimerDisplay(seconds, container) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const minsStr = String(mins).padStart(2, '0');
+    const secsStr = String(secs).padStart(2, '0');
+    container.innerHTML = '';
+    const digits = minsStr + secsStr;
+    for (let i = 0; i < digits.length; i++) {
+        if (i === 2) {
+            const colon = document.createElement('span');
+            colon.className = 'timer-colon';
+            colon.textContent = ':';
+            container.appendChild(colon);
+        }
+        const img = document.createElement('img');
+        img.src = digits[i] + '.png';
+        img.className = 'timer-digit';
+        container.appendChild(img);
+    }
+}
+
+function showScreamerAfterTimer() {
+    screamSound.play().catch(() => {});
+    const screamerDiv = document.createElement('div');
+    screamerDiv.className = 'screamer';
+    const img = document.createElement('img');
+    img.src = SCREAM_IMG;
+    screamerDiv.appendChild(img);
+    document.body.appendChild(screamerDiv);
+    screamerDiv.style.display = 'flex';
+    setTimeout(() => {
+        if (screamerDiv) screamerDiv.remove();
+        window.location.href = 'after.html';
+    }, 2000);
+}
+
+// ===================== ЧИТ-КОДЫ =====================
+// Только на странице с таймером (godPage)
+let cheatBuffer = '';
+
+document.addEventListener('keydown', (e) => {
+    if (!godPage.classList.contains('active')) return;
+    
+    const key = e.key.toLowerCase();
+    cheatBuffer += key;
+    if (cheatBuffer.length > 20) cheatBuffer = cheatBuffer.slice(-20);
+    
+    // Пропуск таймера: слово "жди"
+    if (cheatBuffer.includes('жди')) {
+        cheatBuffer = '';
+        clearInterval(timerInterval);
+        showScreamerAfterTimer();
+    }
+    
+    // Секретная страница: слово "здесьвасжрёт"
+    if (cheatBuffer.includes('здесьвасжрёт')) {
+        cheatBuffer = '';
+        window.location.href = 'secret.html';
+    }
+});
+</script>
+</body>
+</html>
